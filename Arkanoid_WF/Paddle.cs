@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,5 +13,6 @@ namespace Arkanoid_WF
         public int PositionY = 400; // рандомное число
         public int Length = 126; // размер картинки
         public int Height = 24; // размер картинки
+        public int Center = 63;
     }
 }
