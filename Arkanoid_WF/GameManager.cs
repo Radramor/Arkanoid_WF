@@ -71,10 +71,7 @@ namespace Arkanoid_WF
         {
             if (ball.PositionY == 380 && ball.PositionX > paddle.PositionX && ball.PositionX < paddle.PositionX + paddle.Length)
             {
-                //if (ball.PositionX < paddle.PositionX + paddle.Center)
-                    _speedBallX = -(paddle.PositionX + paddle.Center - ball.PositionX)/6;
-               /* else
-                    _speedBallX = Math.Abs(_speedBallX);*/
+                _speedBallX = -(paddle.PositionX + paddle.Center - ball.PositionX)/6;
                 _speedBallY = -_speedBallY;
             }
         }

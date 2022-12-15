@@ -30,17 +30,29 @@
         {
             this.components = new System.ComponentModel.Container();
             this.timer = new System.Windows.Forms.Timer(this.components);
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            this.PaddlePictureBox = new System.Windows.Forms.PictureBox();
+            this.BallPictureBox = new System.Windows.Forms.PictureBox();
+            ((System.ComponentModel.ISupportInitialize)(this.PaddlePictureBox)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.BallPictureBox)).BeginInit();
             this.SuspendLayout();
             // 
-            // pictureBox1
+            // PaddlePictureBox
             // 
-            this.pictureBox1.Location = new System.Drawing.Point(0, -1);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(125, 62);
-            this.pictureBox1.TabIndex = 0;
-            this.pictureBox1.TabStop = false;
+            this.PaddlePictureBox.BackColor = System.Drawing.Color.White;
+            this.PaddlePictureBox.Location = new System.Drawing.Point(356, 394);
+            this.PaddlePictureBox.Name = "PaddlePictureBox";
+            this.PaddlePictureBox.Size = new System.Drawing.Size(125, 37);
+            this.PaddlePictureBox.TabIndex = 0;
+            this.PaddlePictureBox.TabStop = false;
+            // 
+            // BallPictureBox
+            // 
+            this.BallPictureBox.BackColor = System.Drawing.Color.White;
+            this.BallPictureBox.Location = new System.Drawing.Point(393, 351);
+            this.BallPictureBox.Name = "BallPictureBox";
+            this.BallPictureBox.Size = new System.Drawing.Size(47, 37);
+            this.BallPictureBox.TabIndex = 1;
+            this.BallPictureBox.TabStop = false;
             // 
             // Arkanoid
             // 
@@ -48,11 +60,13 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Gray;
             this.ClientSize = new System.Drawing.Size(832, 453);
-            this.Controls.Add(this.pictureBox1);
+            this.Controls.Add(this.BallPictureBox);
+            this.Controls.Add(this.PaddlePictureBox);
             this.DoubleBuffered = true;
             this.Name = "Arkanoid";
             this.Text = "Arkanoid";
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PaddlePictureBox)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.BallPictureBox)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -60,6 +74,7 @@
         #endregion
 
         private System.Windows.Forms.Timer timer;
-        private PictureBox pictureBox1;
+        private PictureBox PaddlePictureBox;
+        private PictureBox BallPictureBox;
     }
 }

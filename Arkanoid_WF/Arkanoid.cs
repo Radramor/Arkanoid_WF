@@ -18,10 +18,10 @@ namespace Arkanoid_WF
 
         private void update(object? sender, EventArgs e)
         {
-            Controls.Clear();
+            //Controls.Clear();
             GM.BallMovement(ball, this, paddle);
-            CreatePaddle();
-            CreateBall();
+            PaddlePictureBox.Location = new Point(paddle.PositionX, paddle.PositionY);
+            BallPictureBox.Location = new Point(ball.PositionX, ball.PositionY);
         }
 
         private void InputCheck(object? sender, KeyEventArgs e)
@@ -39,32 +39,25 @@ namespace Arkanoid_WF
 
         private void CreatePaddle()
         {
-            PictureBox PaddleBox = new PictureBox()
-            {
-                Location = new Point(paddle.PositionX, paddle.PositionY),
-                Width = paddle.Length,
-                Height = paddle.Height,
-                BackColor = Color.White, // сравнение размера картинки и picturebox
-                Image = Image.FromFile("D:\\Arkanoid_WF\\Arkanoid_WF\\Images\\Paddle.png")
-            };
-            Controls.Add(PaddleBox);
+            PaddlePictureBox.Location = new Point(paddle.PositionX, paddle.PositionY);
+            PaddlePictureBox.Width = paddle.Length;
+            PaddlePictureBox.Height = paddle.Height;
+            PaddlePictureBox.BackColor = Color.White; // сравнение размера картинки и picturebox
+            PaddlePictureBox.Image = Image.FromFile("D:\\Arkanoid_WF\\Arkanoid_WF\\Images\\Paddle.png");
         }
         private void CreateBall()
         {
-            PictureBox BallBox = new PictureBox()
-            {
-                Location = new Point(ball.PositionX, ball.PositionY),
-                Width = ball.Size,
-                Height = ball.Size,
-                BackColor = Color.Gray,
-                Image = Image.FromFile("D:\\Arkanoid_WF\\Arkanoid_WF\\Images\\Ball.png")
-            };
-            Controls.Add(BallBox);
+            BallPictureBox.Location = new Point(ball.PositionX, ball.PositionY);
+            BallPictureBox.Width = ball.Size;
+            BallPictureBox.Height = ball.Size;
+            BallPictureBox.BackColor = Color.Gray;
+            BallPictureBox.Image = Image.FromFile("D:\\Arkanoid_WF\\Arkanoid_WF\\Images\\Ball.png");
         }
 
         public void BallDeath()
         {
             Controls.Clear();
+            //начальные значения
             paddle.PositionX = 362;
             paddle.PositionY = 400;
             ball.PositionX = 413;
