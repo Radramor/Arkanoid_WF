@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.VisualBasic.Devices;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -18,27 +19,31 @@ namespace Arkanoid_WF
         private int speedPaddle = 10;
         private Borders borders = new Borders();
 
+
+        public Rectangle BoundsPaddle { get; set; }
+        public int Speed { get; set; }
+        public Point Velocity { get; set; }
+
+        public Paddle()
+        {
+            Speed = 1;
+        }
         public void PaddleMovement(KeyEventArgs e)
         {
-            switch (e.KeyCode)
-            {
-                case Keys.Right:
-                    {
-                        if (PositionX + speedPaddle >= borders.rightBorder - Length)
-                            PositionX = borders.rightBorder - Length;
-                        else
-                            PositionX += speedPaddle;
+            Velocity = new Point();
+            if (Keyboard.IsKeyDown(Keys.Left) || Keyboard.IsKeyDown(Keys.A))
+                Velocity = new Point(-Speed, 0);
+            if (Keyboard.IsKeyDown(Keys.Right) || Keyboard.IsKeyDown(Keys.D))
+                Velocity = new Point(Speed, 0);
 
-                        break;
-                    }
-                case Keys.Left:
-                    {
-                        if (PositionX - speedPaddle <= borders.leftBorder)
-                            PositionX = borders.leftBorder;
-                        else
-                            PositionX -= speedPaddle;
-                        break;
-                    }
+            //сдвигаем ракетку
+            var bounds = BoundsPaddle;
+            bounds.Offset(Velocity.X, Velocity.Y);
+
+            //проверка на выход за пределы поля
+            if (bounds.Left >= /*левая граница поля*/ && bounds.Right <= /*правая граница поля*/)
+            {
+                BoundsPaddle = bounds;
             }
         }
 

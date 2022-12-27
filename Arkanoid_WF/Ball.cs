@@ -1,13 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Metadata;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Arkanoid_WF
 {
-    internal class Ball
+    public class Ball
     {
+        public Rectangle Bounds;
         public int PositionX { get; private set; } = 413; 
         public int PositionY { get; private set; } = 370;
         public const int Size = 24;
@@ -17,15 +19,15 @@ namespace Arkanoid_WF
         private Borders borders = new Borders();
 
         
-        public void BallMovement(Arkanoid arkanoid, Paddle paddle)
+        public void BallMovement(float dt, Game game)
         {
             PositionX += speedBallX;
             PositionY -= speedBallY;
-            WallCollision(arkanoid);
-            PaddleCollision(paddle);
+            WallCollision();
+            PaddleCollision(game.paddle);
             //BrickCollision(ball)
         }
-        public void WallCollision(Arkanoid arkanoid)
+        public void WallCollision()
         {
             //правая и левая стена
             if (PositionX > borders.rightBorder - Size || PositionX < borders.leftBorder)
@@ -41,7 +43,7 @@ namespace Arkanoid_WF
             if (PositionY > borders.deathBorder)
             {
                 speedBallY = -speedBallY;
-                arkanoid.BallDeath();
+                //arkanoid.BallDeath();
             }
         }
 
@@ -61,5 +63,6 @@ namespace Arkanoid_WF
             speedBallX = 5;
             speedBallY = 5;
         }
+
     }
 }

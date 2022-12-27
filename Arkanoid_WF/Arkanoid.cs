@@ -40,7 +40,7 @@ namespace Arkanoid_WF
             PaddlePictureBox.Width = Paddle.Length;
             PaddlePictureBox.Height = Paddle.Height;
             PaddlePictureBox.BackColor = Color.White; // сравнение размера картинки и picturebox
-            PaddlePictureBox.Image = Image.FromFile("D:\\Arkanoid_WF\\Arkanoid_WF\\Images\\Paddle.png");
+            PaddlePictureBox.Image = Image.FromFile("C:\\Users\\Admin\\source\\repos\\3 семестр\\Arkanoid\\Arkanoid_WF\\Images\\Paddle.png");
         }
         private void CreateBall()
         {
@@ -48,15 +48,9 @@ namespace Arkanoid_WF
             BallPictureBox.Width = Ball.Size;
             BallPictureBox.Height = Ball.Size;
             BallPictureBox.BackColor = Color.Gray;
-            BallPictureBox.Image = Image.FromFile("D:\\Arkanoid_WF\\Arkanoid_WF\\Images\\Ball.png");
+            BallPictureBox.Image = Image.FromFile("C:\\Users\\Admin\\source\\repos\\3 семестр\\Arkanoid\\Arkanoid_WF\\Images\\Ball.png");
         }
 
-        public void BallDeath()
-        {
-            //начальные значения
-            paddle.DefaultValues();
-            ball.DefaultValues();
-            Init();
-        }
+
     }
 }
