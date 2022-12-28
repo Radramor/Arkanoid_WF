@@ -23,17 +23,17 @@ namespace Arkanoid_WF
             Body = new Rectangle(defaultLocation, defaultSize);
             speed = new Point((Size)defaultSpeed);
         }
-        public void BallMovement(Paddle paddle)
+        public void BallMovement(Paddle paddle, Game game)
         {
             var _body = Body;
             _body.X += speed.X;
             _body.Y -= speed.Y;
             Body = _body;
-            WallCollision();
+            WallCollision(game);
             PaddleCollision(paddle);
             //BrickCollision(ball)
         }
-        public void WallCollision()
+        public void WallCollision(Game game)
         {
             //правая и левая стена
             if (Body.Right > borders.rightBorder || Body.Left < borders.leftBorder)
@@ -44,12 +44,6 @@ namespace Arkanoid_WF
             if (Body.Top < borders.topBorder)
             {
                 speed.Y = -speed.Y;
-            }
-            //нижняя стена
-            if (Body.Bottom > borders.deathBorder)
-            {
-                speed.Y = -speed.Y;
-                //arkanoid.BallDeath();
             }
         }
 
