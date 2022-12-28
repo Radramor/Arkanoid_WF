@@ -9,48 +9,37 @@ using System.Threading.Tasks;
 
 namespace Arkanoid_WF
 {
-    public class Paddle
+    public class Paddle : GameObject
     {
-        public int PositionX { get; private set; } = 362; // формула: (ArkanoidForm.size.x/2) - (length/2)
-        public int PositionY { get; private set; } = 400; // рандомное число
-        public const int Length = 126; // размер картинки
-        public const int Height = 24; // размер картинки
-        public const int Center = 63;
-        private int speedPaddle = 10;
+        private readonly Point defaultLocation = new Point(362, 400);
+        private readonly Size defaultSize = new Size(126, 24);
+        private readonly int Speed = 10;
         private Borders borders = new Borders();
-
-
-        public Rectangle BoundsPaddle { get; set; }
-        public int Speed { get; set; }
-        public Point Velocity { get; set; }
 
         public Paddle()
         {
-            Speed = 1;
+            Body = new Rectangle(defaultLocation, defaultSize);
         }
         public void PaddleMovement(KeyEventArgs e)
         {
-            Velocity = new Point();
+            var _body = Body;
             if (Keyboard.IsKeyDown(Keys.Left) || Keyboard.IsKeyDown(Keys.A))
-                Velocity = new Point(-Speed, 0);
+                _body.Offset(-Speed, 0);
             if (Keyboard.IsKeyDown(Keys.Right) || Keyboard.IsKeyDown(Keys.D))
-                Velocity = new Point(Speed, 0);
-
-            //сдвигаем ракетку
-            var bounds = BoundsPaddle;
-            bounds.Offset(Velocity.X, Velocity.Y);
+                _body.Offset(Speed, 0);
 
             //проверка на выход за пределы поля
-            if (bounds.Left >= /*левая граница поля*/ && bounds.Right <= /*правая граница поля*/)
+            if (_body.Left >= borders.leftBorder && _body.Right <= borders.rightBorder)
             {
-                BoundsPaddle = bounds;
+                Body = _body;
             }
         }
 
         public void DefaultValues()
         {
-            PositionX = 362;
-            PositionY = 400;
+            var _body = Body;
+            _body.Location = defaultLocation;
+            Body = _body;
         }
     }
 }

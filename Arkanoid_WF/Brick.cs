@@ -15,9 +15,7 @@ namespace Arkanoid_WF
 
         public Brick(int x, int y, int width, int height)
         {
-            Size = new Size(width, height);
-            Color = Color.DarkOliveGreen;
-            Location = new Point(x, y);
+            Body = new Rectangle(x, y, width, height);
             HitPoints = 1;
         }
     }

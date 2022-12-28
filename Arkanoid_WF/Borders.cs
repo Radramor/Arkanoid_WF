@@ -8,9 +8,9 @@ namespace Arkanoid_WF
 {
     internal class Borders
     {
-        public int rightBorder { get; } = 832;
-        public int leftBorder { get; } = 0;
-        public int topBorder { get; } = 0;
-        public int deathBorder { get; } = 430;
+        public readonly int rightBorder  = 832;
+        public readonly int leftBorder = 0;
+        public readonly int topBorder = 0;
+        public readonly int deathBorder = 450;
     }
 }

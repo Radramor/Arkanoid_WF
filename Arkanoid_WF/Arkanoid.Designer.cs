@@ -51,6 +51,7 @@
             this.BallPictureBox.Location = new System.Drawing.Point(393, 351);
             this.BallPictureBox.Name = "BallPictureBox";
             this.BallPictureBox.Size = new System.Drawing.Size(47, 37);
+            this.BallPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.BallPictureBox.TabIndex = 1;
             this.BallPictureBox.TabStop = false;
             // 

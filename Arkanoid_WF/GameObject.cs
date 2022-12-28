@@ -8,8 +8,9 @@ namespace Arkanoid_WF
 {
     public class GameObject
     {
-        public Point Location { get; protected set; }
-        public Size Size { get; protected set; }
-        public Color Color { get; protected set; }
+        public Rectangle Body { get; protected set; }
+
+        //public Color Color { get; protected set; }
+
     }
 }

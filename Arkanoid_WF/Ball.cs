@@ -4,64 +4,70 @@ using System.Linq;
 using System.Reflection.Metadata;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.Tab;
 
 namespace Arkanoid_WF
 {
-    public class Ball
+    public class Ball : GameObject
     {
-        public Rectangle Bounds;
-        public int PositionX { get; private set; } = 413; 
-        public int PositionY { get; private set; } = 370;
-        public const int Size = 24;
-        private int center = 12;
-        private int speedBallX = 5;
-        private int speedBallY = 5;
+        private readonly Point defaultLocation = new Point(401, 370);
+        private readonly Point defaultSpeed = new Point(5, 5);
+        private readonly Size defaultSize = new Size(24, 24);
+
+        private Point speed;
         private Borders borders = new Borders();
 
         
-        public void BallMovement(float dt, Game game)
+        public Ball()
         {
-            PositionX += speedBallX;
-            PositionY -= speedBallY;
+            Body = new Rectangle(defaultLocation, defaultSize);
+            speed = new Point((Size)defaultSpeed);
+        }
+        public void BallMovement(Paddle paddle)
+        {
+            var _body = Body;
+            _body.X += speed.X;
+            _body.Y -= speed.Y;
+            Body = _body;
             WallCollision();
-            PaddleCollision(game.paddle);
+            PaddleCollision(paddle);
             //BrickCollision(ball)
         }
         public void WallCollision()
         {
             //правая и левая стена
-            if (PositionX > borders.rightBorder - Size || PositionX < borders.leftBorder)
+            if (Body.Right > borders.rightBorder || Body.Left < borders.leftBorder)
             {
-                speedBallX = -speedBallX;
+                speed.X = -speed.X;
             }
             //верхняя стена
-            if (PositionY < borders.topBorder)
+            if (Body.Top < borders.topBorder)
             {
-                speedBallY = -speedBallY;
+                speed.Y = -speed.Y;
             }
             //нижняя стена
-            if (PositionY > borders.deathBorder)
+            if (Body.Bottom > borders.deathBorder)
             {
-                speedBallY = -speedBallY;
+                speed.Y = -speed.Y;
                 //arkanoid.BallDeath();
             }
         }
 
         public void PaddleCollision(Paddle paddle)
         {
-            if (PositionY == 380 && PositionX + center > paddle.PositionX && PositionX + center < paddle.PositionX + Paddle.Length)
+            if (Body.Y  == 375 && Body.Right > paddle.Body.Left && Body.Left < paddle.Body.Right)
             {
-                speedBallX = -(paddle.PositionX + Paddle.Center - PositionX) / 7;
-                speedBallY = -speedBallY;
+                speed.X = -((paddle.Body.X + paddle.Body.Width/2) - (Body.X + Body.Width/2)) / 7;
+                speed.Y = -speed.Y;
             }
         }
 
         public void DefaultValues()
         {
-            PositionX = 413;
-            PositionY = 370;
-            speedBallX = 5;
-            speedBallY = 5;
+            var _body = Body;
+            _body.Location = defaultLocation;
+            Body = _body;
+            speed = defaultSpeed;
         }
 
     }

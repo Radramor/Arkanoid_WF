@@ -17,14 +17,14 @@ namespace Arkanoid_WF
 
         private void update(object? sender, EventArgs e)
         {
-            ball.BallMovement(this, paddle);
-            PaddlePictureBox.Location = new Point(paddle.PositionX, paddle.PositionY);
-            BallPictureBox.Location = new Point(ball.PositionX, ball.PositionY);
+            ball.BallMovement(paddle); 
+            BallPictureBox.Location = ball.Body.Location;
         }
 
         private void InputCheck(object? sender, KeyEventArgs e)
         {
             paddle.PaddleMovement(e);
+            PaddlePictureBox.Location = paddle.Body.Location;
         }
         private void Init()
         {
@@ -36,19 +36,19 @@ namespace Arkanoid_WF
 
         private void CreatePaddle()
         {
-            PaddlePictureBox.Location = new Point(paddle.PositionX, paddle.PositionY);
-            PaddlePictureBox.Width = Paddle.Length;
-            PaddlePictureBox.Height = Paddle.Height;
+            PaddlePictureBox.Location = paddle.Body.Location;
+            PaddlePictureBox.Width = paddle.Body.Width;
+            PaddlePictureBox.Height = paddle.Body.Height;
             PaddlePictureBox.BackColor = Color.White; // сравнение размера картинки и picturebox
-            PaddlePictureBox.Image = Image.FromFile("C:\\Users\\Admin\\source\\repos\\3 семестр\\Arkanoid\\Arkanoid_WF\\Images\\Paddle.png");
+            PaddlePictureBox.Image = Image.FromFile("C:\\Users\\Дмитрий\\Source\\Repos\\Radramor\\Arkanoid_WF\\Arkanoid_WF\\Images\\Paddle.png");
         }
         private void CreateBall()
         {
-            BallPictureBox.Location = new Point(ball.PositionX, ball.PositionY);
-            BallPictureBox.Width = Ball.Size;
-            BallPictureBox.Height = Ball.Size;
-            BallPictureBox.BackColor = Color.Gray;
-            BallPictureBox.Image = Image.FromFile("C:\\Users\\Admin\\source\\repos\\3 семестр\\Arkanoid\\Arkanoid_WF\\Images\\Ball.png");
+            BallPictureBox.Location = ball.Body.Location;
+            BallPictureBox.Width = ball.Body.Width;
+            BallPictureBox.Height = ball.Body.Height;
+            BallPictureBox.BackColor = Color.Transparent;
+            BallPictureBox.Image = Image.FromFile("C:\\Users\\Дмитрий\\Source\\Repos\\Radramor\\Arkanoid_WF\\Arkanoid_WF\\Images\\Ball.png");
         }
 
 
