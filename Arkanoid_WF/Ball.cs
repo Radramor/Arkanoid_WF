@@ -43,21 +43,9 @@ namespace Arkanoid_WF
                               Body.Right > b.Body.Left &&
                               Body.Left < b.Body.Right;
 
-                /*bool top    = Body.Bottom > b.Body.Top &&
-                              Body.Right > b.Body.Left &&
-                              Body.Left < b.Body.Right;
-
-                bool right  = Body.Left < b.Body.Right &&
-                              Body.Top < b.Body.Bottom &&
-                              Body.Bottom > b.Body.Top;
-
-                bool left   = Body.Right > b.Body.Left &&
-                              Body.Top < b.Body.Bottom &&
-                              Body.Bottom > b.Body.Top;*/
-
                 if (hit)
                 {
-                    b.pictureBox.Image = null;
+                    b.pictureBox.Visible = false;
                     bricks.Remove(b);
                     speed.Y = -speed.Y;
                     break;

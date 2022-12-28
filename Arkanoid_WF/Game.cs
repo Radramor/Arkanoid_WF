@@ -26,12 +26,20 @@ namespace Arkanoid_WF
         {
             if (ball.Body.Bottom > borders.deathBorder)
             {
-
                 paddle.DefaultValues();
                 ball.DefaultValues();
-                //GenerateBricks(arkanoid);
-                // CreateBricks(bricks, arkanoid);
+                ClearBricks(bricks);
+                GenerateBricks(arkanoid);
             }
+        }
+
+        private void ClearBricks(List<Brick> bricks)
+        {
+            for (int i = 0; i < bricks.Count; i++)
+            {
+                bricks[i].pictureBox.Visible = false;
+            }
+            bricks.Clear();
         }
 
         internal void PaddleMovement(KeyEventArgs e)
