@@ -17,13 +17,13 @@ namespace Arkanoid_WF
         private Point speed;
         private Borders borders = new Borders();
 
-        
+
         public Ball()
         {
             Body = new Rectangle(defaultLocation, defaultSize);
             speed = new Point((Size)defaultSpeed);
         }
-        public void BallMovement(Paddle paddle, Game game)
+        public void BallMovement(Paddle paddle, Game game, List<Brick> bricks)
         {
             var _body = Body;
             _body.X += speed.X;
@@ -31,8 +31,40 @@ namespace Arkanoid_WF
             Body = _body;
             WallCollision(game);
             PaddleCollision(paddle);
-            //BrickCollision(ball)
+            BrickCollision(bricks, game);
         }
+
+        private void BrickCollision(List<Brick> bricks, Game game)
+        {
+            //for (int i = 0; i < bricks.Count; i++)
+            foreach (Brick b in bricks.ToList())
+            {
+                bool hit = Body.Top < b.Body.Bottom &&
+                              Body.Right > b.Body.Left &&
+                              Body.Left < b.Body.Right;
+
+                /*bool top    = Body.Bottom > b.Body.Top &&
+                              Body.Right > b.Body.Left &&
+                              Body.Left < b.Body.Right;
+
+                bool right  = Body.Left < b.Body.Right &&
+                              Body.Top < b.Body.Bottom &&
+                              Body.Bottom > b.Body.Top;
+
+                bool left   = Body.Right > b.Body.Left &&
+                              Body.Top < b.Body.Bottom &&
+                              Body.Bottom > b.Body.Top;*/
+
+                if (hit)
+                {
+                    b.pictureBox.Image = null;
+                    bricks.Remove(b);
+                    speed.Y = -speed.Y;
+                    break;
+                }
+            }
+        }
+
         public void WallCollision(Game game)
         {
             //правая и левая стена
@@ -49,9 +81,9 @@ namespace Arkanoid_WF
 
         public void PaddleCollision(Paddle paddle)
         {
-            if (Body.Y  == 375 && Body.Right > paddle.Body.Left && Body.Left < paddle.Body.Right)
+            if (Body.Y == 375 && Body.Right > paddle.Body.Left && Body.Left < paddle.Body.Right)
             {
-                speed.X = -((paddle.Body.X + paddle.Body.Width/2) - (Body.X + Body.Width/2)) / 7;
+                speed.X = -((paddle.Body.X + paddle.Body.Width / 2) - (Body.X + Body.Width / 2)) / 7;
                 speed.Y = -speed.Y;
             }
         }

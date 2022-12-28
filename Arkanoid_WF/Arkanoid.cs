@@ -16,18 +16,19 @@ namespace Arkanoid_WF
 
         private void update(object? sender, EventArgs e)
         {
-            game.Update(BallPictureBox, PaddlePictureBox);
-            
+            game.Update(BallPictureBox, PaddlePictureBox, this);
+
         }
 
         private void InputCheck(object? sender, KeyEventArgs e)
         {
-            game.PaddleMovement(e);   
+            game.PaddleMovement(e);
         }
-        private void Init()
+        public void Init()
         {
             game.CreatePaddle(PaddlePictureBox);
             game.CreateBall(BallPictureBox);
+            game.GenerateBricks(this);
             timer.Interval = 30;
             timer.Start();
         }

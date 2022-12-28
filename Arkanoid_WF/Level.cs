@@ -48,41 +48,6 @@ namespace Arkanoid_WF
             BricksMap = bricksMap;
         }
 
-        //public void Create(Rectangle window)
-        //{
-        //    Ball = new Ball(BallSize, BallBottomOffset, BallMaxAcceleration);
-        //    Platform = new Platform(PlatformWidth, PlatformHeight, PlatformBottomOffset, PlatformMaxAcceleration);
-        //    Bricks = GenerateBricks(window).ToList();
-        //}
 
-        private IEnumerable<Brick> GenerateBricks(Rectangle window)
-        {
-            List<Brick> bricks = new List<Brick>();
-
-            int initialOffsetY = BricksMapOffset;
-            int currentY = initialOffsetY;
-
-            foreach (int line in BricksMap)
-            {
-                if (line % 2 == 0)
-                {
-                    int sideCount = line / 2;
-                    int sideWidth = sideCount * BrickWidth;
-                    int initialOffsetX = window.Width / 2 - sideWidth;
-
-                    int currentX = initialOffsetX;
-
-                    for (int i = 0; i < line; i++)
-                    {
-                        bricks.Add(new Brick(currentX, currentY, BrickWidth, BrickHeight));
-                        currentX += BrickWidth;
-                    }
-
-                    currentY += BrickHeight;
-                }
-            }
-
-            return bricks;
-        }
     }
 }
