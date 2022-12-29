@@ -14,14 +14,14 @@ namespace Arkanoid_WF
         private readonly Point defaultSpeed = new Point(5, 5);
         private readonly Size defaultSize = new Size(24, 24);
 
-        private Point speed;
+        public Point speed;
         private Borders borders = new Borders();
 
 
         public Ball()
         {
             Body = new Rectangle(defaultLocation, defaultSize);
-            speed = new Point((Size)defaultSpeed);
+            speed = defaultSpeed;
         }
         public void BallMovement(Paddle paddle, Game game, List<Brick> bricks)
         {
@@ -41,10 +41,12 @@ namespace Arkanoid_WF
             {
                 bool hit = Body.Top < b.Body.Bottom &&
                               Body.Right > b.Body.Left &&
-                              Body.Left < b.Body.Right;
+                              Body.Left < b.Body.Right &&
+                              Body.Bottom > b.Body.Top;
 
                 if (hit)
                 {
+                    b.HitPoints = 0;
                     b.pictureBox.Visible = false;
                     bricks.Remove(b);
                     speed.Y = -speed.Y;

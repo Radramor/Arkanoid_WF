@@ -20,6 +20,8 @@ namespace Arkanoid_WF
         {
             Body = new Rectangle(defaultLocation, defaultSize);
         }
+
+
         public void PaddleMovement(KeyEventArgs e)
         {
             var _body = Body;

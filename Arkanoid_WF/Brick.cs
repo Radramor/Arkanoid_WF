@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace Arkanoid_WF
 {
@@ -13,9 +14,15 @@ namespace Arkanoid_WF
         /// <summary>
         /// Количество хитпоинтов
         /// </summary>
-        public virtual int HitPoints { get; protected set; }
+        public int HitPoints { get; set; }
+        [JsonIgnore]
         public PictureBox pictureBox;
 
+        public Brick()
+        {
+            Body = new Rectangle();
+            HitPoints = new int();
+        }
         public Brick(Point point, Size size)
         {
             Body = new Rectangle(point, size);
