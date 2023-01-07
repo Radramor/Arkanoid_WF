@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Arkanoid_WF
+namespace Arkanoid_WF.Levels
 {
     public class AllLevels
     {
@@ -21,24 +22,24 @@ namespace Arkanoid_WF
                     name: "Первый",
                     ballSize: 20,
                     ballBottomOffset: 100,
-                    ballMaxAcceleration: 10,
+                    ballSpeed: new Point(5, 5),
                     platformWidth: 200,
                     platformHeight: 10,
-                    platformBottomOffset: 20,
-                    platformMaxAcceleration: 40,
+                    platformBottomOffset: 80,
+                    platformSpeed: 40,
                     brickWidth: 90,
                     brickHeight: 20,
                     bricksMapOffset: 300,
-                    bricksMap: new[] {4}),
+                    bricksMap: new[] {2}),
                 new Level(
                     name: "Второй",
                     ballSize: 20,
                     ballBottomOffset: 100,
-                    ballMaxAcceleration: 10,
+                    ballSpeed: new Point(5, 5),
                     platformWidth: 100,
                     platformHeight: 10,
-                    platformBottomOffset: 20,
-                    platformMaxAcceleration: 20,
+                    platformBottomOffset: 80,
+                    platformSpeed: 20,
                     brickWidth: 90,
                     brickHeight: 20,
                     bricksMapOffset: 300,

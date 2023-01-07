@@ -1,3 +1,6 @@
+using System;
+using System.Windows.Forms;
+
 namespace Arkanoid_WF
 {
     internal static class Program
@@ -6,7 +9,7 @@ namespace Arkanoid_WF
         static void Main()
         {
             ApplicationConfiguration.Initialize();
-            Application.Run(new Arkanoid());
+            Application.Run(new ArkanoidForm());
         }
     }
 }
