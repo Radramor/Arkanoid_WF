@@ -16,17 +16,24 @@ namespace Arkanoid_WF
 
             timer = new Timer();
             KeyDown += new KeyEventHandler(InputCheck);
-
-            InitializeComponent();            
-            SetupTimer(DEFAULT_FPS);
+            
+            InitializeComponent();         
+            
             SetupWindow();
 
             Rectangle tempRect = new Rectangle(Location.X, Location.Y, Size.Width, Size.Height);
-
             game = new Game(tempRect);
-            
+
+            if (game.CheckFiles())
+            {
+                if (MessageBox.Show("Продолжить игру?", "", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                {
+                    game.Load();                    
+                }
+            }
+            SetupTimer(DEFAULT_FPS);
             //game.Load();
-            /*if (game.ball != null && game.Platform != null && game.bricks != null)
+            /*if (game.Ball != null && game.Platform != null && game.Bricks != null)
                 Init();
             else */
 
@@ -39,7 +46,7 @@ namespace Arkanoid_WF
         private void SetupWindow()
         {
             Rectangle screen = Screen.PrimaryScreen.Bounds;
-            Size = screen.Size; //(Size)new Point(1200, 800);///screen.Size;
+            Size = screen.Size; 
             Location = screen.Location;
 
             BackColor = Color.Navy;
@@ -47,16 +54,11 @@ namespace Arkanoid_WF
         
         private void Arkanoid_FormClosing(object sender, FormClosingEventArgs e)
         {
-            //timer.Stop();
+            timer.Stop();
             if (MessageBox.Show("Сохранить игру?", "", MessageBoxButtons.YesNo) == DialogResult.Yes)
-            {
                 game.Save();
-            }
-        }
-        private void update(object? sender, EventArgs e)
-        {
-            //game.Update(BallPictureBox, PaddlePictureBox, this);
-
+            else
+                game.Clear();
         }
 
         private void InputCheck(object? sender, KeyEventArgs e)
@@ -69,16 +71,6 @@ namespace Arkanoid_WF
             else
                 timer.Start();
         }
-        public void Init()
-        {
-
-            //game.CreatePaddle(PaddlePictureBox);
-           //game.CreateBall(BallPictureBox);
-            //game.GenerateBricks(/*this*/);
-            //timer.Interval = 30;
-            //timer.Start();
-        }
-
         private void ArkanoidForm_Load(object sender, EventArgs e)
         {
             timer.Start();

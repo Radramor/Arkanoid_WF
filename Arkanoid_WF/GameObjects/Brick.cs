@@ -18,7 +18,7 @@ namespace Arkanoid_WF.GameObjects
         public Brick(int x, int y, int width, int height)
         {
             Size = new Size(width, height);
-            Color = Color.DarkOliveGreen;
+            Color = Color.Tomato;
             Location = new Point(x, y);
         }
 

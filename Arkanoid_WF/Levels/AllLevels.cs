@@ -10,7 +10,7 @@ namespace Arkanoid_WF.Levels
 {
     public class AllLevels
     {
-        private readonly List<Level> Levels;
+        public List<Level> Levels { get; set; }
 
         public int CurrentIndex { get; set; }
 

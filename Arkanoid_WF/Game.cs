@@ -16,22 +16,22 @@ namespace Arkanoid_WF
 {
     public class Game
     {
-        private readonly AllLevels allLevels;
+        private  AllLevels allLevels;
         private Level currentLevel;
-        private Platform platform;
-        private Ball ball;
-        private List<Brick> bricks;
+        //private Platform Platform;
+        //private Ball Ball;
+        //private List<Brick> Bricks;
 
         private Borders borders;
         private Graphics graphics;
         private Rectangle window;
 
         private bool gameIsOver;
-        string filenameBricks = "C:\\Users\\Admin\\source\\repos\\3 семестр\\Arkanoid\\BricksData.json";
-        string filenameBall = "C:\\Users\\Admin\\source\\repos\\3 семестр\\Arkanoid\\BallData.json";
-        string filenamePlatform = "C:\\Users\\Admin\\source\\repos\\3 семестр\\Arkanoid\\PlatformData.json";
-        string filenameLevel = "C:\\Users\\Admin\\source\\repos\\3 семестр\\Arkanoid\\LevelData.json";
-
+        //string filenameBricks = "C:\\Users\\Admin\\source\\repos\\3 семестр\\Arkanoid\\BricksData.json";
+        //string filenameBall = "C:\\Users\\Admin\\source\\repos\\3 семестр\\Arkanoid\\BallData.json";
+        //string filenamePlatform = "C:\\Users\\Admin\\source\\repos\\3 семестр\\Arkanoid\\PlatformData.json";
+        string filenameLevels = "C:\\Users\\Admin\\source\\repos\\3 семестр\\Arkanoid\\LevelsData.json";
+        string filenameCurrentLevel = "C:\\Users\\Admin\\source\\repos\\3 семестр\\Arkanoid\\CurrentLevelData.json";
         public Game(Rectangle window) 
         {
             allLevels = new AllLevels();
@@ -53,7 +53,7 @@ namespace Arkanoid_WF
 
             BricksUpdate(graphics);
 
-            bricks.RemoveAll(b =>
+            currentLevel.Bricks.RemoveAll(b =>
             {             
                 return b.IsSmashed;
             });     
@@ -64,31 +64,31 @@ namespace Arkanoid_WF
 
         private void BallUpdate(Graphics g, Rectangle _window)
         {
-            if (ball.Location.X == 0 && ball.Location.Y == 0)
+            if (currentLevel.Ball.Location.X == 0 && currentLevel.Ball.Location.Y == 0)
             {
-                ball.SetLocation(window);
+                currentLevel.Ball.SetLocation(window);
             }
 
-            ball.BallMovement(platform, bricks, borders);
+            currentLevel.Ball.BallMovement(currentLevel.Platform, currentLevel.Bricks, borders);
 
-            graphics.FillEllipse(new SolidBrush(ball.Color), new Rectangle(ball.Location, ball.Size));
+            graphics.FillEllipse(new SolidBrush(currentLevel.Ball.Color), new Rectangle(currentLevel.Ball.Location, currentLevel.Ball.Size));
         }
         private void PlatformUpdate(Graphics g, Rectangle _window)
         {
-            if (platform.Location.X == 0 && platform.Location.Y == 0)
+            if (currentLevel.Platform.Location.X == 0 && currentLevel.Platform.Location.Y == 0)
             {
-                platform.SetLocation(window);
+                currentLevel.Platform.SetLocation(window);
             }
-            graphics.FillRectangle(new SolidBrush(platform.Color), new Rectangle(platform.Location, platform.Size));
+            graphics.FillRectangle(new SolidBrush(currentLevel.Platform.Color), new Rectangle(currentLevel.Platform.Location, currentLevel.Platform.Size));
         }
 
         private void BricksUpdate(Graphics g)
         {
-            foreach(var b in bricks)
+            foreach(var b in currentLevel.Bricks)
             {
                 if(!b.IsSmashed)
                 {
-                    g.FillRectangle(new SolidBrush(Color.Tomato), new Rectangle(b.Location, b.Size));
+                    g.FillRectangle(new SolidBrush(b.Color), new Rectangle(b.Location, b.Size));
                 }
             }
         }
@@ -99,23 +99,23 @@ namespace Arkanoid_WF
                 currentLevel = allLevels.LoadFirstLevel();
             else currentLevel = allLevels.LoadNextLevel();
 
-            currentLevel.Create(window);
-            ball = currentLevel.Ball;
-            platform = currentLevel.Platform;
-            bricks = currentLevel.Bricks;
+            currentLevel.FirstCreate(window);
+            //Ball = currentLevel.Ball;
+            //Platform = currentLevel.Platform;
+            //Bricks = currentLevel.Bricks;
             gameIsOver = false;
         }
 
         private void CheckWin()
         {
-            if (!bricks.Any() && !gameIsOver)
+            if (!currentLevel.Bricks.Any() && !gameIsOver)
             {               
                 if(allLevels.CheckEnd())
                 {
                     gameIsOver = true;
-                    ball.SetLocation(window);
-                    ball.Speed = new Point(0, 0);
-                    platform.SetLocation(window);
+                    currentLevel.Ball.SetLocation(window);
+                    currentLevel.Ball.Speed = new Point(0, 0);
+                    currentLevel.Platform.SetLocation(window);
 
                     if (MessageBox.Show("ПОБЕДА!!!!", "", MessageBoxButtons.RetryCancel, MessageBoxIcon.None) == DialogResult.Retry)                                          
                         LoadLevel();
@@ -129,19 +129,19 @@ namespace Arkanoid_WF
 
         public void CheckBallDeath()
         {
-            if (ball.Location.Y + ball.Size.Height > borders.BottonBorder)
+            if (currentLevel.Ball.Location.Y + currentLevel.Ball.Size.Height > borders.BottonBorder)
             {
-                //platform.DefaultValues();
-                //ball.DefaultValues();
-                ball.SetLocation(window);
-                ball.Speed = new Point(0, 0);
-                platform.SetLocation(window);
+                //Platform.DefaultValues();
+                //Ball.DefaultValues();
+                currentLevel.Ball.SetLocation(window);
+                currentLevel.Ball.Speed = new Point(0, 0);
+                currentLevel.Platform.SetLocation(window);
 
                 if (MessageBox.Show("ПОРАЖЕНИЕ!", "", MessageBoxButtons.RetryCancel, MessageBoxIcon.Error) == DialogResult.Retry)
                 {
                     gameIsOver = true;
                     
-                    ClearBricks(bricks);
+                    ClearBricks(currentLevel.Bricks);
                     LoadLevel();
                     //GenerateBricks(/*arkanoid*/);
                 }  
@@ -165,50 +165,55 @@ namespace Arkanoid_WF
             if (Keyboard.IsKeyDown(Keys.Left) || Keyboard.IsKeyDown(Keys.A))
             {
                 isMovementLeft = true;
-                platform.PlatformMovement(isMovementLeft, borders);
+                currentLevel.Platform.PlatformMovement(isMovementLeft, borders);
             }
                 
             else if (Keyboard.IsKeyDown(Keys.Right) || Keyboard.IsKeyDown(Keys.D))
             {
                 isMovementLeft = false;
-                platform.PlatformMovement(isMovementLeft, borders);
+                currentLevel.Platform.PlatformMovement(isMovementLeft, borders);
             }            
         }
 
 
         public void Save()
         {
-            //File.Delete("saveBricks.json");
-            File.WriteAllText(filenameBricks, string.Empty);
-            File.WriteAllText(filenameBricks, JsonConvert.SerializeObject(bricks));
-
-            File.WriteAllText(filenameBall, string.Empty);
-            File.WriteAllText(filenameBall, JsonConvert.SerializeObject(ball));
-
-            File.WriteAllText(filenamePlatform, string.Empty);
-            File.WriteAllText(filenamePlatform, JsonConvert.SerializeObject(platform));
-
-            File.WriteAllText(filenameLevel, string.Empty);
-            File.WriteAllText(filenameLevel, JsonConvert.SerializeObject(allLevels));
+            Clear();
+            File.WriteAllText(filenameCurrentLevel, JsonConvert.SerializeObject(currentLevel));
+            File.WriteAllText(filenameLevels, JsonConvert.SerializeObject(allLevels));
         }
 
-        //public void LoadChanges<T>(out T obj, string filename)
-        //{
-        //    if (File.Exists(filename))
-        //    {
-        //        var textfile = File.ReadAllText(filename);
-        //        obj = JsonConvert.DeserializeObject<T>(textfile);
-        //    }
-        //    else
-        //    {
-        //        MessageBox.Show($"Не удалось найти '{filename}'!", "Критическая ошибка!", MessageBoxButtons.OK, MessageBoxIcon.Error);
-        //        Environment.Exit(1);
-        //        throw new FileNotFoundException($"'{filename}' не существует.");
-        //    }
-        //}
-        //public void Load()
-        //{
-        //    LoadChanges(out bricks, "saveBricks.json");
-        //}
+        public void Clear()
+        {
+            File.WriteAllText(filenameCurrentLevel, string.Empty);
+            File.WriteAllText(filenameLevels, string.Empty);
+        }
+        public void LoadChanges<T>(out T obj, string filename)
+        {
+            if (File.Exists(filename))
+            {
+                var textfile = File.ReadAllText(filename);
+                obj = JsonConvert.DeserializeObject<T>(textfile);
+            }
+            else
+            {
+                MessageBox.Show($"Не удалось найти '{filename}'!", "Критическая ошибка!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Environment.Exit(1);
+                throw new FileNotFoundException($"'{filename}' не существует.");
+            }
+        }
+        public void Load()
+        {
+            LoadChanges(out currentLevel, filenameCurrentLevel);
+            LoadChanges(out allLevels, filenameLevels);
+            currentLevel.Create();
+        }
+        public bool CheckFiles()
+        {
+            if (new FileInfo(filenameCurrentLevel).Length == 0 &&
+                new FileInfo(filenameLevels).Length == 0)
+                return false;
+            else return true;
+        }
     }
 }

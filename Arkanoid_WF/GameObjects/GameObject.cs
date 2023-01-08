@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -10,7 +11,9 @@ namespace Arkanoid_WF.GameObjects
     public class GameObject
     {
         public Point Location { get;  set; }
-        public Size Size { get; protected set; }
-        public Color Color { get; protected set; }
+
+        [JsonIgnore]
+        public Size Size { get;  set; }
+        public Color Color { get;  set; }
     }
 }

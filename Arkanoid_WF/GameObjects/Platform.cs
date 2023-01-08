@@ -12,8 +12,8 @@ namespace Arkanoid_WF.GameObjects
 {
     public class Platform : GameObject
     {
-        private int Speed { get; set; }
-        private int BottomOffset { get; set; }
+        public int Speed { get; set; }
+        public int BottomOffset { get; set; }
         //private Borders borders; //
 
         public Platform(int width, int height, int bottomOffset, int speed)

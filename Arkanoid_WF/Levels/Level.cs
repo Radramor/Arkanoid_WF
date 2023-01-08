@@ -9,7 +9,6 @@ using Arkanoid_WF.GameObjects;
 
 namespace Arkanoid_WF.Levels
 {
-    [Serializable]
     public class Level
     {
         public string Name { get; }
@@ -29,9 +28,9 @@ namespace Arkanoid_WF.Levels
         public int BricksMapOffset { get; set; }
         public int[] BricksMap { get; }
 
-        public Ball Ball { get; private set; }
-        public Platform Platform { get; private set; }
-        public List<Brick> Bricks { get; private set; }
+        public Ball Ball { get;  set; }
+        public Platform Platform { get;  set; }
+        public List<Brick> Bricks { get;  set; }
 
         public Level(string name, int ballSize, int ballBottomOffset, Point ballSpeed, int platformWidth,
             int platformHeight, int platformBottomOffset, int platformSpeed, int brickWidth, int brickHeight, int bricksMapOffset,
@@ -51,12 +50,24 @@ namespace Arkanoid_WF.Levels
             BricksMap = bricksMap;
         }
 
-        public void Create(Rectangle window)
+        public void FirstCreate(Rectangle window)
         {
             Ball = new Ball(BallSize, BallBottomOffset, BallSpeed);
             Platform = new Platform(PlatformWidth, PlatformHeight, PlatformBottomOffset, PlatformSpeed);
             Bricks = GenerateBricks(window).ToList();
         }
+        public void Create()
+        {
+            Ball.Size = new Size(BallSize, BallSize); /*= new Ball(BallSize, BallBottomOffset, BallSpeed);*/
+            Platform.Size = new Size(PlatformWidth, PlatformHeight);
+            
+            for(int i = 0; i < Bricks.Count; i++)            
+                Bricks[i].Size = new Size(BrickWidth, BrickHeight);
+            //Platform = new Platform(PlatformWidth, PlatformHeight, PlatformBottomOffset, PlatformSpeed);
+            //Bricks = GenerateBricks(window).ToList();
+        }
+
+
 
         private IEnumerable<Brick> GenerateBricks(Rectangle window)
         {

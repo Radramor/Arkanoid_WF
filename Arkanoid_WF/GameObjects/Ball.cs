@@ -14,11 +14,7 @@ namespace Arkanoid_WF.GameObjects
     {
         public Point Speed { get; set; }
         private int BottomOffset { get; set; }        
-        public Ball()
-        {
-            
-            Speed = new Point(5, 5);
-        }
+
         public Ball(int size, int bottomOffset, Point speed)
         {            
             Size = new Size(size, size);
@@ -34,15 +30,15 @@ namespace Arkanoid_WF.GameObjects
                 );
         }
 
-        //public void BallMovement(Platform platform, Game game, List<Brick> bricks)
+        //public void BallMovement(Platform Platform, Game game, List<Brick> Bricks)
         //{
         //    var _body = Body;
         //    _body.X += Speed.X;
         //    _body.Y -= Speed.Y;
         //    Body = _body;
         //    WallCollision(game);
-        //    PlatformCollision(platform);
-        //    BrickCollision(bricks, game);
+        //    PlatformCollision(Platform);
+        //    BrickCollision(Bricks, game);
         //}
 
         public void BallMovement(Platform platform, List<Brick> bricks, Borders borders)
@@ -55,7 +51,7 @@ namespace Arkanoid_WF.GameObjects
 
         private void BrickCollision(List<Brick> bricks)
         {
-            //for (int i = 0; i < bricks.Count; i++)
+            //for (int i = 0; i < Bricks.Count; i++)
             foreach (Brick b in bricks.ToList())
             {
                 //bool hit = Body.Top < b.Body.Bottom &&
@@ -70,7 +66,7 @@ namespace Arkanoid_WF.GameObjects
                 {
                     //b.HitPoints = 0;
                     //b.pictureBox.Visible = false;
-                    //bricks.Remove(b);
+                    //Bricks.Remove(b);
                     
                     Speed = new Point(Speed.X, -Speed.Y);
                     b.IsSmashed = true;
@@ -95,13 +91,13 @@ namespace Arkanoid_WF.GameObjects
 
         public void PlatformCollision(Platform platform)
         {
-            //if (platform.Location.Y <= Location.Y + Size.Height &&
-            //   platform.Location.X < Location.X + Size.Width &&
-            //   platform.Location.X + platform.Size.Width > Location.X)
+            //if (Platform.Location.Y <= Location.Y + Size.Height &&
+            //   Platform.Location.X < Location.X + Size.Width &&
+            //   Platform.Location.X + Platform.Size.Width > Location.X)
             //{
-            //    double PieceLength = platform.Size.Width / 3;
+            //    double PieceLength = Platform.Size.Width / 3;
 
-            //    if (Location.X < platform.Location.X + PieceLength)
+            //    if (Location.X < Platform.Location.X + PieceLength)
             //        Speed = 
             //}
             if (Location.Y + Size.Height == platform.Location.Y && Location.X + Size.Width > platform.Location.X && Location.X < platform.Location.X + platform.Size.Width)
