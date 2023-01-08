@@ -42,7 +42,7 @@ namespace Arkanoid_WF
             Size = screen.Size; //(Size)new Point(1200, 800);///screen.Size;
             Location = screen.Location;
 
-            BackColor = Color.LightBlue;
+            BackColor = Color.Navy;
         }
         
         private void Arkanoid_FormClosing(object sender, FormClosingEventArgs e)

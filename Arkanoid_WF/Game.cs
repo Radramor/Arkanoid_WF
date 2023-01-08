@@ -28,30 +28,12 @@ namespace Arkanoid_WF
         private Rectangle window;
 
         private bool gameIsOver;
-        private bool messageVisible;
 
-        public bool IsPaused { get; private set; }
         public Game(Rectangle window) 
         {
             allLevels = new AllLevels();
             borders = new Borders(window);
         }
-
-        //public Game(Rectangle window)
-        //{
-        //    ball = new Ball();
-        //    platform = new Platform();
-        //    borders = new Borders(window);
-        //    bricks = new List<Brick>();
-        //}
-        //public void Update(PictureBox BallPictureBox, PictureBox PaddlePictureBox, ArkanoidForm arkanoid)
-        //{
-        //    ball.BallMovement(platform, this, bricks);
-        //    CheckBallDeath(arkanoid);
-        //    BallPictureBox.Location = ball.Body.Location;
-        //    PaddlePictureBox.Location = platform.Body.Location;
-        //    CheckWin(arkanoid);
-        //}
 
         public void Update(Graphics g, Rectangle _window)
         {
@@ -62,18 +44,6 @@ namespace Arkanoid_WF
             {
                 LoadLevel();
             }
-
-            if (gameIsOver)
-            {
-                //ShowGameOverMessage();
-                MessageBox.Show("ПОРАЖЕНИЕ", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-
-            //if (IsPaused)
-            //{
-
-            //}
 
             BallUpdate(graphics, window);
             PlatformUpdate(graphics, window);
@@ -87,8 +57,6 @@ namespace Arkanoid_WF
 
             CheckBallDeath();            
             CheckWin();
-
-
         }
 
         private void BallUpdate(Graphics g, Rectangle _window)
@@ -132,46 +100,50 @@ namespace Arkanoid_WF
             ball = currentLevel.Ball;
             platform = currentLevel.Platform;
             bricks = currentLevel.Bricks;
-
-            //gameOver
-
+            gameIsOver = false;
         }
 
-        private void CheckWin(/*ArkanoidForm arkanoid*/)
+        private void CheckWin()
         {
-            if (!bricks.Any() && !messageVisible)
-            {
-                messageVisible = true;
-                ball.Speed = new Point(0, 0);
-                if (MessageBox.Show("ПОБЕДА!!!!", "", MessageBoxButtons.RetryCancel, MessageBoxIcon.None) == DialogResult.Retry)
+            if (!bricks.Any() && !gameIsOver)
+            {               
+                if(allLevels.CheckEnd())
                 {
-                    //platform.DefaultValues();
-                    //ball.DefaultValues();
-                    //ball.Speed = new Point(5, 5);
-                    ClearBricks(bricks);
-                    //GenerateBricks(/*arkanoid*/);
-                    messageVisible = false;
+                    gameIsOver = true;
+                    ball.SetLocation(window);
+                    ball.Speed = new Point(0, 0);
+                    platform.SetLocation(window);
+
+                    if (MessageBox.Show("ПОБЕДА!!!!", "", MessageBoxButtons.RetryCancel, MessageBoxIcon.None) == DialogResult.Retry)                                          
+                        LoadLevel();
+                    else
+                        Application.Exit();                    
                 }
-                else 
-                    Application.Exit();
+                else LoadLevel();
 
             }
         }
 
-        public void CheckBallDeath(/*ArkanoidForm arkanoid*/)
+        public void CheckBallDeath()
         {
             if (ball.Location.Y + ball.Size.Height > borders.BottonBorder)
             {
                 //platform.DefaultValues();
                 //ball.DefaultValues();
+                ball.SetLocation(window);
                 ball.Speed = new Point(0, 0);
-                
-                if (MessageBox.Show("ПОРАЖЕНИЕ", "", MessageBoxButtons.OK, MessageBoxIcon.Error) == DialogResult.OK)
+                platform.SetLocation(window);
+
+                if (MessageBox.Show("ПОРАЖЕНИЕ!", "", MessageBoxButtons.RetryCancel, MessageBoxIcon.Error) == DialogResult.Retry)
                 {
-                    ball.Speed = new Point(5, 5);
+                    gameIsOver = true;
+                    
                     ClearBricks(bricks);
+                    LoadLevel();
                     //GenerateBricks(/*arkanoid*/);
                 }  
+                else Application.Exit();
+
             }
         }
 
@@ -197,8 +169,7 @@ namespace Arkanoid_WF
             {
                 isMovementLeft = false;
                 platform.PlatformMovement(isMovementLeft, borders);
-            }
-            
+            }            
         }
         //public void PlatformMovement(KeyEventArgs e)
         //{
@@ -214,58 +185,7 @@ namespace Arkanoid_WF
         //        Body = _body;
         //    }
         //}
-        public void CreatePaddle(PictureBox PaddlePictureBox)
-        {
-            PaddlePictureBox.Location = platform.Body.Location;
-            PaddlePictureBox.Width = platform.Body.Width;
-            PaddlePictureBox.Height = platform.Body.Height;
-            PaddlePictureBox.BackColor = Color.White; // сравнение размера картинки и picturebox
-            PaddlePictureBox.Image = Image.FromFile("C:\\Users\\Admin\\source\\repos\\3 семестр\\Arkanoid\\Arkanoid_WF\\Images\\Platform.png");
-        }
-        public void CreateBall(PictureBox BallPictureBox)
-        {
-            BallPictureBox.Location = ball.Body.Location;
-            BallPictureBox.Width = ball.Body.Width;
-            BallPictureBox.Height = ball.Body.Height;
-            BallPictureBox.BackColor = Color.Transparent;
-            BallPictureBox.Image = Image.FromFile("C:\\Users\\Admin\\source\\repos\\3 семестр\\Arkanoid\\Arkanoid_WF\\Images\\Ball.png");
-        }
 
-        public void CreateBricks(List<Brick> bricks/*, ArkanoidForm arkanoid*/)
-        {
-            //for (int i = 0; i < bricks.Count; i++)
-            //{
-            //    PictureBox brickBox = new PictureBox()
-            //    {
-            //        Location = bricks[i].Body.Location,
-            //        Size = bricks[i].Body.Size,
-            //        Image = Image.FromFile("C:\\Users\\Admin\\source\\repos\\3 семестр\\Arkanoid\\Arkanoid_WF\\Images\\resources.png")
-            //    };
-            //    //bricks[i].pictureBox.Image = true;
-            //    bricks[i].pictureBox = brickBox;
-            //    arkanoid.Controls.Add(bricks[i].pictureBox);
-            //}
-        }
-
-        public void GenerateBricks(/*ArkanoidForm arkanoid*/)
-        {
-            Point location = new Point(80, 50);
-            Size size = new Size(70, 30);
-
-            for (int i = 0; i < 3; i++)
-            {
-                for (int j = 0; j < 8; j++)
-                {
-                    //bricks.Add(new Brick(location, size));
-
-                    location.X += 80;
-                }
-                location.Y += 50;
-                location.X = 80;
-            }
-            //if (bricks.Last().HitPoints != 0)
-            //CreateBricks(bricks/*, arkanoid*/);
-        }
 
         //internal void save()
         //{

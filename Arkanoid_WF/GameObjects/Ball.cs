@@ -29,7 +29,7 @@ namespace Arkanoid_WF.GameObjects
         public Ball(int size, int bottomOffset, Point speed)
         {            
             Size = new Size(size, size);
-            Color = Color.DarkBlue;
+            Color = Color.Pink;
             Speed = speed;
             BottomOffset = bottomOffset;
         }

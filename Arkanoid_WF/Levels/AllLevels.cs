@@ -21,10 +21,10 @@ namespace Arkanoid_WF.Levels
                 new Level(
                     name: "Первый",
                     ballSize: 20,
-                    ballBottomOffset: 100,
+                    ballBottomOffset: 110,
                     ballSpeed: new Point(5, 5),
                     platformWidth: 200,
-                    platformHeight: 10,
+                    platformHeight: 20,
                     platformBottomOffset: 80,
                     platformSpeed: 40,
                     brickWidth: 90,
@@ -35,7 +35,7 @@ namespace Arkanoid_WF.Levels
                     name: "Второй",
                     ballSize: 20,
                     ballBottomOffset: 100,
-                    ballSpeed: new Point(5, 5),
+                    ballSpeed: new Point(-5, 5),
                     platformWidth: 100,
                     platformHeight: 10,
                     platformBottomOffset: 80,
@@ -62,13 +62,13 @@ namespace Arkanoid_WF.Levels
         public Level LoadNextLevel()
         {
             CurrentIndex++;
-
-            if (CurrentIndex > Levels.Count - 1)
-            {
-                return LoadFirstLevel();
-            }
-
             return Levels[CurrentIndex];
+        }
+        public bool CheckEnd()
+        {
+            if (CurrentIndex == Levels.Count - 1)
+                return true;
+            return false;
         }
     }
 }

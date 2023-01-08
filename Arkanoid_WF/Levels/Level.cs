@@ -9,6 +9,7 @@ using Arkanoid_WF.GameObjects;
 
 namespace Arkanoid_WF.Levels
 {
+    [Serializable]
     public class Level
     {
         public string Name { get; }
@@ -63,25 +64,39 @@ namespace Arkanoid_WF.Levels
 
             int initialOffsetY = BricksMapOffset;
             int currentY = initialOffsetY;
+            int maxBricks = window.Width / BrickWidth;
 
             foreach (int line in BricksMap)
             {
-                if (line % 2 == 0)
+                int initialOffsetX = 0;
+                int tempNum = line;
+                if (tempNum > maxBricks)
                 {
-                    int sideCount = line / 2;
-                    int sideWidth = sideCount * BrickWidth;
-                    int initialOffsetX = window.Width / 2 - sideWidth;
-
-                    int currentX = initialOffsetX;
-
-                    for (int i = 0; i < line; i++)
-                    {
-                        bricks.Add(new Brick(currentX, currentY, BrickWidth, BrickHeight));
-                        currentX += BrickWidth;
-                    }
-
-                    currentY += BrickHeight;
+                    tempNum = maxBricks;
                 }
+                if (tempNum % 2 == 0)
+                {
+                    int sideCount = tempNum / 2;
+                    int sideWidth = sideCount * BrickWidth;
+                    initialOffsetX = window.Width / 2 - sideWidth;
+
+                }
+                else
+                {
+                    int sideCount = (tempNum - 1) / 2;
+                    int sideWidth = sideCount * BrickWidth;
+                    initialOffsetX = window.Width / 2 - sideWidth - BrickWidth / 2;
+                }
+
+                int currentX = initialOffsetX;
+
+                for (int i = 0; i < tempNum; i++)
+                {
+                    bricks.Add(new Brick(currentX, currentY, BrickWidth, BrickHeight));
+                    currentX += BrickWidth + 1;
+                }
+
+                currentY += BrickHeight + 1;
             }
             return bricks;
         }

@@ -40,15 +40,11 @@ namespace Arkanoid_WF.GameObjects
         {
             if (isMovementLeft && (Location.X - Speed >= borders.LeftBorder)) //проверка на выход за левый край поля
                 Location = new Point(Location.X - Speed, Location.Y);
-            else if(Location.X + Size.Width + Speed <= borders.RightBorder) //проверка на выход за правый край поля
-                Location = new Point(Location.X + Speed, Location.Y);
-        }
+            else if (isMovementLeft) Location = new Point(borders.LeftBorder, Location.Y); 
 
-        public void DefaultValues()
-        {
-            var _body = Body;
-            _body.Location = defaultLocation;
-            Body = _body;
+            if (!isMovementLeft && Location.X + Size.Width + Speed <= borders.RightBorder) //проверка на выход за правый край поля
+                Location = new Point(Location.X + Speed, Location.Y);
+            else if (!isMovementLeft) Location = new Point(borders.RightBorder - Size.Width, Location.Y);
         }
     }
 }
