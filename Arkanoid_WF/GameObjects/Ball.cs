@@ -12,18 +12,11 @@ namespace Arkanoid_WF.GameObjects
 {
     public class Ball : GameObject
     {
-        private readonly Point defaultLocation = new Point(401, 370);
-        private readonly Point defaultSpeed = new Point(5, 5);
-        private readonly Size defaultSize = new Size(24, 24);
-
         public Point Speed { get; set; }
-        private int BottomOffset { get; set; }
-
-        private Borders borders = new Borders(); //////
-        
+        private int BottomOffset { get; set; }        
         public Ball()
         {
-            Body = new Rectangle(defaultLocation, defaultSize);
+            
             Speed = new Point(5, 5);
         }
         public Ball(int size, int bottomOffset, Point speed)
@@ -117,14 +110,5 @@ namespace Arkanoid_WF.GameObjects
                 Speed = new Point(newX, -Speed.Y);
             }
         }
-
-        public void DefaultValues()
-        {
-            var _body = Body;
-            _body.Location = defaultLocation;
-            Body = _body;
-            Speed = defaultSpeed;
-        }
-
     }
 }

@@ -5,13 +5,12 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using static System.Formats.Asn1.AsnWriter;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.Tab;
+
 
 namespace Arkanoid_WF
 {
@@ -28,6 +27,10 @@ namespace Arkanoid_WF
         private Rectangle window;
 
         private bool gameIsOver;
+        string filenameBricks = "C:\\Users\\Admin\\source\\repos\\3 семестр\\Arkanoid\\BricksData.json";
+        string filenameBall = "C:\\Users\\Admin\\source\\repos\\3 семестр\\Arkanoid\\BallData.json";
+        string filenamePlatform = "C:\\Users\\Admin\\source\\repos\\3 семестр\\Arkanoid\\PlatformData.json";
+        string filenameLevel = "C:\\Users\\Admin\\source\\repos\\3 семестр\\Arkanoid\\LevelData.json";
 
         public Game(Rectangle window) 
         {
@@ -171,27 +174,23 @@ namespace Arkanoid_WF
                 platform.PlatformMovement(isMovementLeft, borders);
             }            
         }
-        //public void PlatformMovement(KeyEventArgs e)
-        //{
-        //    var _body = Body;
-        //    if (Keyboard.IsKeyDown(Keys.Left) || Keyboard.IsKeyDown(Keys.A))
-        //        _body.Offset(-Speed, 0);
-        //    if (Keyboard.IsKeyDown(Keys.Right) || Keyboard.IsKeyDown(Keys.D))
-        //        _body.Offset(Speed, 0);
-
-        //    //проверка на выход за пределы поля
-        //    if (_body.Left >= borders.LeftBorder && _body.Right <= borders.RightBorder)
-        //    {
-        //        Body = _body;
-        //    }
-        //}
 
 
-        //internal void save()
-        //{
-        //    File.Delete("saveBricks.json");
-        //    File.WriteAllText("saveBricks.json", JsonConvert.SerializeObject(bricks));
-        //}
+        public void Save()
+        {
+            //File.Delete("saveBricks.json");
+            File.WriteAllText(filenameBricks, string.Empty);
+            File.WriteAllText(filenameBricks, JsonConvert.SerializeObject(bricks));
+
+            File.WriteAllText(filenameBall, string.Empty);
+            File.WriteAllText(filenameBall, JsonConvert.SerializeObject(ball));
+
+            File.WriteAllText(filenamePlatform, string.Empty);
+            File.WriteAllText(filenamePlatform, JsonConvert.SerializeObject(platform));
+
+            File.WriteAllText(filenameLevel, string.Empty);
+            File.WriteAllText(filenameLevel, JsonConvert.SerializeObject(allLevels));
+        }
 
         //public void LoadChanges<T>(out T obj, string filename)
         //{

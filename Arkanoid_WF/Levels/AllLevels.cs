@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace Arkanoid_WF.Levels
@@ -10,7 +11,8 @@ namespace Arkanoid_WF.Levels
     public class AllLevels
     {
         private readonly List<Level> Levels;
-        private int CurrentIndex;
+
+        public int CurrentIndex { get; set; }
 
         public AllLevels()
         {
@@ -22,7 +24,7 @@ namespace Arkanoid_WF.Levels
                     name: "Первый",
                     ballSize: 20,
                     ballBottomOffset: 110,
-                    ballSpeed: new Point(5, 5),
+                    ballSpeed: new Point(0, 5),
                     platformWidth: 200,
                     platformHeight: 20,
                     platformBottomOffset: 80,

@@ -12,16 +12,10 @@ namespace Arkanoid_WF.GameObjects
 {
     public class Platform : GameObject
     {
-        private Point defaultLocation = new Point(362, 400);
-        //private readonly Size defaultSize = new Size(126, 24);
         private int Speed { get; set; }
         private int BottomOffset { get; set; }
         //private Borders borders; //
 
-        public Platform()
-        {
-            Body = new Rectangle(defaultLocation, Size);
-        }
         public Platform(int width, int height, int bottomOffset, int speed)
         {
             Size = new Size(width, height);

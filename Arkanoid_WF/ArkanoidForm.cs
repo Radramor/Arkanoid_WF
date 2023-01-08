@@ -50,7 +50,7 @@ namespace Arkanoid_WF
             //timer.Stop();
             if (MessageBox.Show("Сохранить игру?", "", MessageBoxButtons.YesNo) == DialogResult.Yes)
             {
-                //game.save();
+                game.Save();
             }
         }
         private void update(object? sender, EventArgs e)

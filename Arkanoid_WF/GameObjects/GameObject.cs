@@ -12,7 +12,5 @@ namespace Arkanoid_WF.GameObjects
         public Point Location { get;  set; }
         public Size Size { get; protected set; }
         public Color Color { get; protected set; }
-        public Rectangle Body { get; protected set; } /////
-
     }
 }
