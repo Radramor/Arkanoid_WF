@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 using Arkanoid_WF.GameObjects;
 
 namespace Arkanoid_WF.Levels
@@ -12,10 +8,10 @@ namespace Arkanoid_WF.Levels
     public class Level
     {
         public string Name { get; }
-
         public int BallSize { get; }
         public int BallBottomOffset { get; }
-        public Point BallSpeed { get; }
+        public int BallSpeedX { get; }
+        public int BallSpeedY { get; }
 
         public int PlatformWidth { get; }
         public int PlatformHeight { get; }
@@ -32,14 +28,15 @@ namespace Arkanoid_WF.Levels
         public Platform Platform { get;  set; }
         public List<Brick> Bricks { get;  set; }
 
-        public Level(string name, int ballSize, int ballBottomOffset, Point ballSpeed, int platformWidth,
+        public Level(string name, int ballSize, int ballBottomOffset, int ballSpeedX, int ballSpeedY, int platformWidth,
             int platformHeight, int platformBottomOffset, int platformSpeed, int brickWidth, int brickHeight, int bricksMapOffset,
             int[] bricksMap)
         {
             Name = name;
             BallSize = ballSize;
             BallBottomOffset = ballBottomOffset;
-            BallSpeed = ballSpeed;
+            BallSpeedX = ballSpeedX;
+            BallSpeedY = ballSpeedY;
             PlatformWidth = platformWidth;
             PlatformHeight = platformHeight;
             PlatformBottomOffset = platformBottomOffset;
@@ -52,24 +49,12 @@ namespace Arkanoid_WF.Levels
 
         public void FirstCreate(Rectangle window)
         {
-            Ball = new Ball(BallSize, BallBottomOffset, BallSpeed);
-            Platform = new Platform(PlatformWidth, PlatformHeight, PlatformBottomOffset, PlatformSpeed);
+            Ball = new Ball( new Size(BallSize, BallSize), BallBottomOffset, new Point(BallSpeedX, BallSpeedY));
+            Platform = new Platform(new Size(PlatformWidth, PlatformHeight), PlatformBottomOffset, PlatformSpeed);
             Bricks = GenerateBricks(window).ToList();
         }
-        public void Create()
-        {
-            Ball.Size = new Size(BallSize, BallSize); /*= new Ball(BallSize, BallBottomOffset, BallSpeed);*/
-            Platform.Size = new Size(PlatformWidth, PlatformHeight);
-            
-            for(int i = 0; i < Bricks.Count; i++)            
-                Bricks[i].Size = new Size(BrickWidth, BrickHeight);
-            //Platform = new Platform(PlatformWidth, PlatformHeight, PlatformBottomOffset, PlatformSpeed);
-            //Bricks = GenerateBricks(window).ToList();
-        }
 
-
-
-        private IEnumerable<Brick> GenerateBricks(Rectangle window)
+        private List<Brick> GenerateBricks(Rectangle window)
         {
             List<Brick> bricks = new List<Brick>();
 
@@ -103,7 +88,7 @@ namespace Arkanoid_WF.Levels
 
                 for (int i = 0; i < tempNum; i++)
                 {
-                    bricks.Add(new Brick(currentX, currentY, BrickWidth, BrickHeight));
+                    bricks.Add(new Brick(currentX, currentY, new Size(BrickWidth, BrickHeight)));
                     currentX += BrickWidth + 1;
                 }
 

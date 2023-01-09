@@ -1,4 +1,3 @@
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using System.Windows.Forms;
 using System.Drawing;
 using System;
@@ -7,21 +6,19 @@ namespace Arkanoid_WF
 {
     public partial class ArkanoidForm : Form
     {        
-        private const int DEFAULT_FPS = 120;
+        private const int DEFAULT_INTERVAL = 1000 / 120;
 
-        private readonly Game game;
+        private readonly IGame game;
         private readonly Timer timer;
         public ArkanoidForm()
         {
-
             timer = new Timer();
             KeyDown += new KeyEventHandler(InputCheck);
             
             InitializeComponent();         
-            
             SetupWindow();
 
-            Rectangle tempRect = new Rectangle(Location.X, Location.Y, Size.Width, Size.Height);
+            Rectangle tempRect = new(Location.X, Location.Y, Size.Width, Size.Height);
             game = new Game(tempRect);
 
             if (game.CheckFiles())
@@ -31,16 +28,11 @@ namespace Arkanoid_WF
                     game.Load();                    
                 }
             }
-            SetupTimer(DEFAULT_FPS);
-            //game.Load();
-            /*if (game.Ball != null && game.Platform != null && game.Bricks != null)
-                Init();
-            else */
-
+            SetupTimer(DEFAULT_INTERVAL);
         }
-        private void SetupTimer(int fps)
+        private void SetupTimer(int interval)
         {
-            timer.Interval = 1000 / fps;
+            timer.Interval = interval;
             timer.Tick += (sender, args) => Refresh();
         }
         private void SetupWindow()
@@ -49,16 +41,20 @@ namespace Arkanoid_WF
             Size = screen.Size; 
             Location = screen.Location;
 
-            BackColor = Color.Navy;
+            BackColor = Color.FromArgb(0,0,45);
         }
         
         private void Arkanoid_FormClosing(object sender, FormClosingEventArgs e)
         {
             timer.Stop();
-            if (MessageBox.Show("Сохранить игру?", "", MessageBoxButtons.YesNo) == DialogResult.Yes)
-                game.Save();
-            else
-                game.Clear();
+            if (!game.GetGameIsOver())
+            {
+                if (MessageBox.Show("Сохранить игру?", "", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                    game.Save();
+                else
+                    game.Clear();
+            }
+            else game.Clear();
         }
 
         private void InputCheck(object? sender, KeyEventArgs e)

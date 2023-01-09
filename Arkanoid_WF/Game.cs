@@ -4,40 +4,35 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Drawing.Drawing2D;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-
 
 namespace Arkanoid_WF
 {
-    public class Game
+    public class Game : IGame
     {
         private  AllLevels allLevels;
         private Level currentLevel;
-        //private Platform Platform;
-        //private Ball Ball;
-        //private List<Brick> Bricks;
 
         private Borders borders;
         private Graphics graphics;
         private Rectangle window;
 
         private bool gameIsOver;
-        //string filenameBricks = "C:\\Users\\Admin\\source\\repos\\3 семестр\\Arkanoid\\BricksData.json";
-        //string filenameBall = "C:\\Users\\Admin\\source\\repos\\3 семестр\\Arkanoid\\BallData.json";
-        //string filenamePlatform = "C:\\Users\\Admin\\source\\repos\\3 семестр\\Arkanoid\\PlatformData.json";
-        string filenameLevels = "C:\\Users\\Admin\\source\\repos\\3 семестр\\Arkanoid\\LevelsData.json";
-        string filenameCurrentLevel = "C:\\Users\\Admin\\source\\repos\\3 семестр\\Arkanoid\\CurrentLevelData.json";
+
+        private readonly string filenameIndexLevel = "C:\\Users\\Admin\\source\\repos\\3 семестр\\Arkanoid\\IndexLevelData.json";
+        private readonly string filenameCurrentLevel = "C:\\Users\\Admin\\source\\repos\\3 семестр\\Arkanoid\\CurrentLevelData.json";
+
         public Game(Rectangle window) 
         {
             allLevels = new AllLevels();
             borders = new Borders(window);
         }
-
+        public bool GetGameIsOver()
+        {
+            return gameIsOver;
+        }
         public void Update(Graphics g, Rectangle _window)
         {
             graphics = g;
@@ -48,10 +43,9 @@ namespace Arkanoid_WF
                 LoadLevel();
             }
 
-            BallUpdate(graphics, window);
-            PlatformUpdate(graphics, window);
-
-            BricksUpdate(graphics);
+            BallUpdate();
+            PlatformUpdate();
+            BricksUpdate();
 
             currentLevel.Bricks.RemoveAll(b =>
             {             
@@ -62,7 +56,7 @@ namespace Arkanoid_WF
             CheckWin();
         }
 
-        private void BallUpdate(Graphics g, Rectangle _window)
+        private void BallUpdate()
         {
             if (currentLevel.Ball.Location.X == 0 && currentLevel.Ball.Location.Y == 0)
             {
@@ -73,7 +67,7 @@ namespace Arkanoid_WF
 
             graphics.FillEllipse(new SolidBrush(currentLevel.Ball.Color), new Rectangle(currentLevel.Ball.Location, currentLevel.Ball.Size));
         }
-        private void PlatformUpdate(Graphics g, Rectangle _window)
+        private void PlatformUpdate()
         {
             if (currentLevel.Platform.Location.X == 0 && currentLevel.Platform.Location.Y == 0)
             {
@@ -82,13 +76,13 @@ namespace Arkanoid_WF
             graphics.FillRectangle(new SolidBrush(currentLevel.Platform.Color), new Rectangle(currentLevel.Platform.Location, currentLevel.Platform.Size));
         }
 
-        private void BricksUpdate(Graphics g)
+        private void BricksUpdate()
         {
             foreach(var b in currentLevel.Bricks)
             {
                 if(!b.IsSmashed)
                 {
-                    g.FillRectangle(new SolidBrush(b.Color), new Rectangle(b.Location, b.Size));
+                    graphics.FillRectangle(new SolidBrush(b.Color), new Rectangle(b.Location, b.Size));
                 }
             }
         }
@@ -100,9 +94,6 @@ namespace Arkanoid_WF
             else currentLevel = allLevels.LoadNextLevel();
 
             currentLevel.FirstCreate(window);
-            //Ball = currentLevel.Ball;
-            //Platform = currentLevel.Platform;
-            //Bricks = currentLevel.Bricks;
             gameIsOver = false;
         }
 
@@ -126,40 +117,33 @@ namespace Arkanoid_WF
 
             }
         }
-
-        public void CheckBallDeath()
+        private void CheckBallDeath()
         {
             if (currentLevel.Ball.Location.Y + currentLevel.Ball.Size.Height > borders.BottonBorder)
             {
-                //Platform.DefaultValues();
-                //Ball.DefaultValues();
                 currentLevel.Ball.SetLocation(window);
                 currentLevel.Ball.Speed = new Point(0, 0);
                 currentLevel.Platform.SetLocation(window);
-
+                gameIsOver = true;
                 if (MessageBox.Show("ПОРАЖЕНИЕ!", "", MessageBoxButtons.RetryCancel, MessageBoxIcon.Error) == DialogResult.Retry)
                 {
-                    gameIsOver = true;
-                    
-                    ClearBricks(currentLevel.Bricks);
+                    ClearBricks();
                     LoadLevel();
-                    //GenerateBricks(/*arkanoid*/);
                 }  
                 else Application.Exit();
 
             }
         }
-
-        private void ClearBricks(List<Brick> bricks)
+        private void ClearBricks()
         {
-            bricks.RemoveAll(b =>
+            currentLevel.Bricks.RemoveAll(b =>
             {                
                 return b.IsSmashed;
             });
-            bricks.Clear();
+            currentLevel.Bricks.Clear();
         }
 
-        internal void PlatformMovement()
+        public void PlatformMovement()
         {
             bool isMovementLeft;
             if (Keyboard.IsKeyDown(Keys.Left) || Keyboard.IsKeyDown(Keys.A))
@@ -175,20 +159,19 @@ namespace Arkanoid_WF
             }            
         }
 
-
         public void Save()
         {
             Clear();
             File.WriteAllText(filenameCurrentLevel, JsonConvert.SerializeObject(currentLevel));
-            File.WriteAllText(filenameLevels, JsonConvert.SerializeObject(allLevels));
+            File.WriteAllText(filenameIndexLevel, JsonConvert.SerializeObject(allLevels));
         }
 
         public void Clear()
         {
             File.WriteAllText(filenameCurrentLevel, string.Empty);
-            File.WriteAllText(filenameLevels, string.Empty);
+            File.WriteAllText(filenameIndexLevel, string.Empty);
         }
-        public void LoadChanges<T>(out T obj, string filename)
+        private void LoadChanges<T>(out T obj, string filename)
         {
             if (File.Exists(filename))
             {
@@ -205,13 +188,12 @@ namespace Arkanoid_WF
         public void Load()
         {
             LoadChanges(out currentLevel, filenameCurrentLevel);
-            LoadChanges(out allLevels, filenameLevels);
-            currentLevel.Create();
+            LoadChanges(out allLevels, filenameIndexLevel);
         }
         public bool CheckFiles()
         {
             if (new FileInfo(filenameCurrentLevel).Length == 0 &&
-                new FileInfo(filenameLevels).Length == 0)
+                new FileInfo(filenameIndexLevel).Length == 0)
                 return false;
             else return true;
         }

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Drawing;
+﻿using System.Drawing;
 
 namespace Arkanoid_WF
 {
@@ -13,8 +8,6 @@ namespace Arkanoid_WF
         public int LeftBorder { get; set; }
         public int TopBorder { get; set; }
         public int BottonBorder { get; set; }
-
-        public Borders() { }   
 
         public Borders(Rectangle window)
         {

@@ -10,7 +10,7 @@ namespace Arkanoid_WF.Levels
 {
     public class AllLevels
     {
-        public List<Level> Levels { get; set; }
+        private List<Level> Levels { get; set; }
 
         public int CurrentIndex { get; set; }
 
@@ -22,22 +22,24 @@ namespace Arkanoid_WF.Levels
             {
                 new Level(
                     name: "Первый",
-                    ballSize: 20,
+                    ballSize: 25,
                     ballBottomOffset: 110,
-                    ballSpeed: new Point(0, 5),
+                    ballSpeedX: 0,
+                    ballSpeedY: 5,
                     platformWidth: 200,
                     platformHeight: 20,
                     platformBottomOffset: 80,
                     platformSpeed: 40,
                     brickWidth: 90,
-                    brickHeight: 20,
+                    brickHeight: 25,
                     bricksMapOffset: 300,
                     bricksMap: new[] {2}),
                 new Level(
                     name: "Второй",
                     ballSize: 20,
                     ballBottomOffset: 100,
-                    ballSpeed: new Point(-5, 5),
+                    ballSpeedX: 0,
+                    ballSpeedY: 5,
                     platformWidth: 100,
                     platformHeight: 10,
                     platformBottomOffset: 80,
@@ -45,14 +47,9 @@ namespace Arkanoid_WF.Levels
                     brickWidth: 90,
                     brickHeight: 20,
                     bricksMapOffset: 300,
-                    bricksMap: new[] {2, 4, 0, 6, 8})
+                    bricksMap: new[] {2})
             };
 
-        }
-
-        public Level LoadCurrentLevel()
-        {
-            return Levels[CurrentIndex];
         }
 
         public Level LoadFirstLevel()

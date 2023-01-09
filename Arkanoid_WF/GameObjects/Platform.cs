@@ -1,11 +1,5 @@
-﻿using Microsoft.VisualBasic.Devices;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Drawing;
-using System.Linq;
-using System.Reflection.Metadata;
-using System.Text;
+﻿using System.Drawing;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 
 namespace Arkanoid_WF.GameObjects
@@ -14,11 +8,10 @@ namespace Arkanoid_WF.GameObjects
     {
         public int Speed { get; set; }
         public int BottomOffset { get; set; }
-        //private Borders borders; //
 
-        public Platform(int width, int height, int bottomOffset, int speed)
+        public Platform(Size size, int bottomOffset, int speed)
         {
-            Size = new Size(width, height);
+            Size = size;
             Color = Color.Aquamarine;
             Speed = speed;
             BottomOffset = bottomOffset;
