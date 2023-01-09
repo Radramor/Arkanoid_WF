@@ -23,10 +23,12 @@ namespace Arkanoid_WF
 
         private readonly string filenameIndexLevel = "C:\\Users\\Admin\\source\\repos\\3 семестр\\Arkanoid\\IndexLevelData.json";
         private readonly string filenameCurrentLevel = "C:\\Users\\Admin\\source\\repos\\3 семестр\\Arkanoid\\CurrentLevelData.json";
+        private readonly string filenameAllLevels = "C:\\Users\\Admin\\source\\repos\\3 семестр\\Arkanoid\\AllLevelsData.json";
 
         public Game(Rectangle window) 
         {
-            allLevels = new AllLevels();
+            LoadAllLevels();
+            //allLevels = new AllLevels();
             borders = new Borders(window);
         }
         public bool GetGameIsOver()
@@ -184,6 +186,10 @@ namespace Arkanoid_WF
                 Environment.Exit(1);
                 throw new FileNotFoundException($"'{filename}' не существует.");
             }
+        }
+        private void LoadAllLevels()
+        {
+            LoadChanges(out allLevels, filenameAllLevels);
         }
         public void Load()
         {
